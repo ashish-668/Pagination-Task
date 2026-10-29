@@ -1,12 +1,18 @@
 import { useSearchParams } from "react-router-dom";
 import { FaReact } from "react-icons/fa";
-import { SiJavascript, SiTailwindcss, SiReactrouter, SiVercel,  SiGithub, SiHtml5,} from "react-icons/si";
+import { useState } from "react";
+import {
+  SiJavascript,
+  SiTailwindcss,
+  SiReactrouter,
+  SiVercel,
+  SiGithub,
+  SiHtml5,
+} from "react-icons/si";
 import { BsBootstrap } from "react-icons/bs";
-
 
 const Home = () => {
   const MAP_DATA = [
-
     {
       heading: "React",
       img: <FaReact className="text-5xl text-[#00BCEB]" />,
@@ -16,21 +22,21 @@ const Home = () => {
 
     {
       heading: "JavaScript",
-      img:  <SiJavascript className="text-5xl text-[#F7DF1E]" />,
+      img: <SiJavascript className="text-5xl text-[#F7DF1E]" />,
       description:
         "JavaScript is a high-level programming language used to make websites interactive and dynamic. It can also be used for backend development, mobile apps, and other applications.",
     },
 
     {
       heading: "Tailwind",
-      img:   <SiTailwindcss className="text-5xl text-[#06B6D4]" />,
+      img: <SiTailwindcss className="text-5xl text-[#06B6D4]" />,
       description:
         "Tailwind CSS is a utility-first CSS framework used to style websites by applying predefined utility classes directly in HTML or JSX, without writing custom CSS for every element.",
     },
 
     {
       heading: "ReactRouter",
-      img:   <SiReactrouter className="text-5xl text-[#F44250]" />,
+      img: <SiReactrouter className="text-5xl text-[#F44250]" />,
       description:
         "React Router is a library used in React applications to handle navigation between different pages or views without reloading the entire webpage.",
     },
@@ -44,7 +50,7 @@ const Home = () => {
 
     {
       heading: "Vercel",
-      img:  <SiVercel className="text-5xl text-black" />,
+      img: <SiVercel className="text-5xl text-black" />,
       description:
         "Vercel is a cloud platform used to deploy, host, and manage websites and frontend applications. It is especially popular for React and Next.js projects.",
     },
@@ -69,14 +75,19 @@ const Home = () => {
       description:
         "CSS is a stylesheet language used to control the appearance of web pages, including colors, fonts, spacing, layouts, and responsive designs.",
     },
-
   ];
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = Number(searchParams.get("page")) || 1;
 
-  const ShowItems = 3;
+  const [ShowItems, setShowItems] = useState(3);
+
+  function ShowMore() {
+    setShowItems(ShowItems + ShowItems);
+  }
+
+  const totalpages = Math.ceil(MAP_DATA.length / ShowItems);
 
   const start = (page - 1) * ShowItems;
   const end = start + ShowItems;
@@ -92,7 +103,7 @@ const Home = () => {
       <section className=" w-full flex items-center justify-center min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50 px-6 py-16">
         <div className="mx-auto px-5 max-w-330 w-full">
           <div className="flex flex-col items-center justify-center gap-7">
-            <div className="flex items-center justify-center gap-5">
+            <div className="flex items-center justify-center gap-5 flex-wrap">
               {CURRENT_DATA.map((item, index) => (
                 <div
                   key={index}
@@ -101,8 +112,8 @@ const Home = () => {
                   <div className="flex flex-col gap-5">
                     <div>{item.img}</div>
                     <div className="flex flex-col gap-3">
-                        <h1 className="text-dark-blue">{item.heading}</h1>
-                        <p className="text-dark-gray">{item.description}</p>
+                      <h1 className="text-dark-blue">{item.heading}</h1>
+                      <p className="text-dark-gray">{item.description}</p>
                     </div>
                   </div>
                 </div>
@@ -120,21 +131,29 @@ const Home = () => {
 
               <button
                 onClick={() => handleClick(page + 1)}
-                disabled={page === 3}
+                disabled={page === totalpages}
                 className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg active:scale-95"
               >
                 Next
               </button>
             </div>
           </div>
-        </div>
 
-       
-       
-        
+          <div className="mt-10">
+            <button
+              onClick={() => ShowMore(page + 3)}
+              disabled={page === 3}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg active:scale-95"
+            >
+              Show More
+            </button>
+          </div>
+        </div>
       </section>
     </>
   );
 };
 
 export default Home;
+
+
