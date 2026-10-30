@@ -141,7 +141,7 @@ const Home = () => {
 
           <div className="mt-10">
             <button
-              onClick={() => ShowMore(page + 3)}
+              onClick={ShowMore}
               disabled={page === 3}
               className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-blue-600 hover:shadow-lg active:scale-95"
             >
